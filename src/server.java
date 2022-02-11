@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class server {
@@ -22,12 +23,13 @@ public class server {
 
     public static String string_check(String s){
 
-        if (s.length() > 4 && s.substring(0,5).equals("echo\"")){
+
+        if (s.length() > 4 && s.substring(0,5).equals("echo\"") && s.charAt(s.length()-1) == '\"'){
             s = s.substring(5, s.length()-1);
            // return s2;
-            // return "aaaa";
+            // return "a"
         }
-        else if (s.length() > 12 && s.substring(0,12).equals("standardize\"")){
+        else if (s.length() > 12 && s.substring(0,12).equals("standardize\"") && s.charAt(s.length()-1) == '\"'){
             //s2 = s.substring(12, s.length()-1).toUpperCase();
             s = s.substring(12, s.length()-1);
             s = s.trim();
@@ -93,8 +95,7 @@ public class server {
                 public void run(){
                     try {
                         msg = in.readLine();
-                        while (msg != "#"){
-
+                        while (!Objects.equals(msg, "bye")){
 
                             System.out.println("Client said: "+ msg);
                             String result = string_check(msg);

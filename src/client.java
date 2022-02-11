@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class client {
@@ -15,6 +16,7 @@ public class client {
         final Scanner scanner2 = new Scanner(System.in);
         try {
             clientSocket = new Socket("localhost", 5001);
+
             System.out.println("Enter client name:");
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -36,7 +38,7 @@ public class client {
                 public void run() {
                     try {
                         msg = in.readLine();
-                        while (msg !=null){
+                        while (!Objects.equals(msg, null)){
                             System.out.println("Server said: "+ msg);
                             msg = in.readLine();
 
@@ -44,6 +46,8 @@ public class client {
                         System.out.println("Server disconnected");
                         out.close();
                         clientSocket.close();
+                        System.exit(0);
+
                     }catch (IOException e){
                         e.printStackTrace();
                     }
